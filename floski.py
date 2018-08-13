@@ -37,8 +37,8 @@ def mover(port1, pw1, port2, pw2):
 try:
     while True:
         try:
-            color1 = BP.get_sensor(BP.PORT_1)
-            color2 = BP.get_sensor(BP.PORT_2)
+            color_sensor1 = BP.get_sensor(BP.PORT_1)
+            color_sensor2 = BP.get_sensor(BP.PORT_2)
 
             BP.offset_motor_encoder(BP.PORT_A, BP.get_motor_encoder(BP.PORT_A))#sempre resetar os motores
             BP.offset_motor_encoder(BP.PORT_B, BP.get_motor_encoder(BP.PORT_B))#sempre resetar os moteres
@@ -50,10 +50,10 @@ try:
                     mover(BP.PORT_A, -10, BP.PORT_B, -10)
                     sleep(0.2)
                     #Verifica verde
-                    if color[color1] == "Green":
+                    if color[color_sensor1] == "Green":
                         mover(BP.PORT_A, 100, BP.PORT_B, -75)#2
                         sleep(0.2)
-                    elif color[color2] == "Green":
+                    elif color[color_sensor2] == "Green":
                         mover(BP.PORT_A, -75, BP.PORT_B, 100)#3
                         sleep(0.2)
                 elif GPIO.input(IR4) == GPIO.LOW:
