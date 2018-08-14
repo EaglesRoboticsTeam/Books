@@ -51,10 +51,10 @@ try:
                     sleep(0.2)
                     #Verifica verde
                     if color[color_sensor1] == "Green":
-                        mover(BP.PORT_A, 100, BP.PORT_B, -75)#2
+                        mover(BP.PORT_A, -75, BP.PORT_B, 100)#2
                         sleep(0.2)
                     elif color[color_sensor2] == "Green":
-                        mover(BP.PORT_A, -75, BP.PORT_B, 100)#3
+                        mover(BP.PORT_A, 100, BP.PORT_B, -75)#3
                         sleep(0.2)
                 elif GPIO.input(IR4) == GPIO.LOW:
                     mover(BP.PORT_A, 100, BP.PORT_B, -75)#2
