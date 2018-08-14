@@ -27,7 +27,7 @@ GPIO.setup(IR4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #função dos motores
 def mover(port1, pw1, port2, pw2):
     BP.offset_motor_encoder(BP.PORT_A, BP.get_motor_encoder(port1))#sempre resetar os motores
-    BP.offset_motor_encoder(BP.PORT_B, BP.get_motor_encoder(port2))#sempre resetar os moteresBP.set_motor_power(port1, 0)
+    BP.offset_motor_encoder(BP.PORT_B, BP.get_motor_encoder(port2))#sempre resetar os moteres
     BP.set_motor_power(port1, pw1)
     BP.set_motor_power(port2, pw2)
 
