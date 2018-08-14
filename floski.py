@@ -21,13 +21,11 @@ GPIO.setup(IR2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(IR3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(IR4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-#função dos motores
+#Função dos motores
 def mover(port1, pw1, port2, pw2):
     BP.set_motor_power(port1, 0)
     BP.set_motor_power(port2, 0)
-    sleep(0)
     BP.set_motor_power(port1, pw1)
-    sleep(0)
     BP.set_motor_power(port2, pw2)
 
 #Line Follower Loop
@@ -37,12 +35,12 @@ def mover(port1, pw1, port2, pw2):
 try:
     while True:
         try:
-            #Variáveis dos sensores de cor, esqueda e direita respectivamente
+            #Variáveis dos sensores de cor, esquerda e direita respectivamente
             color_sensor1 = BP.get_sensor(BP.PORT_1)
             color_sensor2 = BP.get_sensor(BP.PORT_2)
 
             #Reseta os motores
-            BP.offset_motor_encoder(BP.PORT_A, BP.get_motor_encoder(BP.PORT_A)
+            BP.offset_motor_encoder(BP.PORT_A, BP.get_motor_encoder(BP.PORT_A))
             BP.offset_motor_encoder(BP.PORT_B, BP.get_motor_encoder(BP.PORT_B))
 
             if GPIO.input(IR1) == GPIO.HIGH:
