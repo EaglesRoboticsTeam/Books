@@ -4,6 +4,9 @@ from time import sleep
 
 BP = brickpi3.BrickPi3()
 
+BP.set_sensor_type(BP.PORT_1, BP.SENSOR_TYPE.EV3_COLOR_COLOR)
+BP.set_sensor_type(BP.PORT_2, BP.SENSOR_TYPE.EV3_COLOR_COLOR)
+
 color = ["none", "Black", "Blue", "Green", "Yellow", "Red", "White", "Brown"]
 
 #Deifine os sensores infravermelhos array
@@ -21,10 +24,10 @@ GPIO.setup(IR2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(IR3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(IR4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-#Função dos motores
+#função dos motores
 def mover(port1, pw1, port2, pw2):
-    BP.set_motor_power(port1, 0)
-    BP.set_motor_power(port2, 0)
+    BP.offset_motor_encoder(BP.PORT_A, BP.get_motor_encoder(port1))#sempre resetar os motores
+    BP.offset_motor_encoder(BP.PORT_B, BP.get_motor_encoder(port2))#sempre resetar os moteresBP.set_motor_power(port1, 0)
     BP.set_motor_power(port1, pw1)
     BP.set_motor_power(port2, pw2)
 
@@ -32,30 +35,45 @@ def mover(port1, pw1, port2, pw2):
 #1 preto preto
 #2 ponta direita
 #3 ponta esquerda
+    
 try:
     while True:
         try:
-            #Variáveis dos sensores de cor, esquerda e direita respectivamente
-            color_sensor1 = BP.get_sensor(BP.PORT_1)
-            color_sensor2 = BP.get_sensor(BP.PORT_2)
-
-            #Reseta os motores
-            BP.offset_motor_encoder(BP.PORT_A, BP.get_motor_encoder(BP.PORT_A))
-            BP.offset_motor_encoder(BP.PORT_B, BP.get_motor_encoder(BP.PORT_B))
-
             if GPIO.input(IR1) == GPIO.HIGH:
                 if GPIO.input(IR4) == GPIO.HIGH:
+                    
+                    mover(BP.PORT_A, -20, BP.PORT_B, -20)
+                    sleep(0.7)
                     mover(BP.PORT_A, 0, BP.PORT_B, 0)#1
-                    sleep(0.2)
-                    mover(BP.PORT_A, -10, BP.PORT_B, -10)
-                    sleep(0.2)
+                    sleep(0.9)
                     #Verifica verde
-                    if color[color_sensor1] == "Green":
-                        mover(BP.PORT_A, -75, BP.PORT_B, 100)#3
-                        sleep(0.2)
-                    elif color[color_sensor2] == "Green":
-                        mover(BP.PORT_A, 100, BP.PORT_B, -75)#2
-                        sleep(0.2)
+                    try:
+                        color_sensor1 = BP.get_sensor(BP.PORT_1)
+                        color_sensor2 = BP.get_sensor(BP.PORT_2)
+                        
+                        if color[color_sensor1] == "Green":
+                            if color[color_sensor2] == "Green":
+                                mover(BP.PORT_A, -100, BP.PORT_B, 100)
+                                sleep(0.8)
+                            else:
+                                mover(BP.PORT_A, 100, BP.PORT_B, 100)#3
+                                sleep(0.1)
+                                mover(BP.PORT_A, -75, BP.PORT_B, 100)#3
+                                sleep(0.4)
+                        elif color[color_sensor2] == "Green":
+                            if color[color_sensor1] == "Green":
+                                mover(BP.PORT_A, -100, BP.PORT_B, 100)
+                                sleep(0.8)
+                            else: 
+                                mover(BP.PORT_A, 100, BP.PORT_B, 100)#3
+                                sleep(0.1)
+                                mover(BP.PORT_A, 100, BP.PORT_B, -75)#3
+                                sleep(0.4)
+                        else:
+                            mover(BP.PORT_A, 50, BP.PORT_B, 50)#3
+                            sleep(0.3)
+                    except brickpi3.SensorError as error:
+                        print(error)
                 elif GPIO.input(IR4) == GPIO.LOW:
                     mover(BP.PORT_A, 100, BP.PORT_B, -75)#2
 
@@ -74,7 +92,7 @@ try:
                         elif GPIO.input(IR3) == GPIO.LOW:
                             mover(BP.PORT_A, 40, BP.PORT_B, 40)
 
-        except brickpi3.SensorError as error:
+        except brickpi3.SensorError as error: #CASO O SENSOR DEMORE PARA INICIALIZAR O EXCEPT SERVE PARA DA TEMPO DE INICIAR O SENSSOR
             print(error)
-except KeyboardInterrupt:
+except KeyboardInterrupt: #FECHANDO O PROGRAMA
     BP.reset_all()
