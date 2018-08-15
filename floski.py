@@ -9,7 +9,7 @@ BP.set_sensor_type(BP.PORT_2, BP.SENSOR_TYPE.EV3_COLOR_COLOR)
 
 color = ["none", "Black", "Blue", "Green", "Yellow", "Red", "White", "Brown"]
 
-#Deifine os sensores infravermelhos array
+#Deifine os sensores infravermelhos do array numerados de acordo com os pinos físicos do RaspberryPi3
 IR1 = 7
 IR2 = 11
 IR3 = 13
@@ -24,7 +24,7 @@ GPIO.setup(IR2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(IR3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(IR4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-#função dos motores
+#Função dos motores
 def mover(port1, pw1, port2, pw2):
     BP.offset_motor_encoder(BP.PORT_A, BP.get_motor_encoder(port1))#sempre resetar os motores
     BP.offset_motor_encoder(BP.PORT_B, BP.get_motor_encoder(port2))#sempre resetar os moteres
@@ -32,9 +32,9 @@ def mover(port1, pw1, port2, pw2):
     BP.set_motor_power(port2, pw2)
 
 #Line Follower Loop
-#1 preto preto
-#2 ponta direita
-#3 ponta esquerda
+#1 Preto-Preto
+#2 Ponta direita
+#3 Ponta esquerda
     
 try:
     while True:
