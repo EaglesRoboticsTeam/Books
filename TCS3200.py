@@ -51,7 +51,7 @@ def loop():
         print("Green")
         temp = 1
     else:
-        print("nove")
+        print("none")
 
 def endprogram():
     GPIO.cleanup()
