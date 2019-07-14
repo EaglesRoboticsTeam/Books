@@ -80,15 +80,15 @@ try:
                     duration = time() - start 
                     red1  = NUM_CYCLES / duration
     
-                    if (red1 > 8000) and (red1 < 11000):               
-                        if (red2 > 8000) and (red2 < 11000):
+                    if 8000 < red1 < 11000:
+                        if 8000 < red2 < 11000:
                             mover(BP.PORT_C, -100, BP.PORT_B, 100)
                             sleep(0.5)
                         else:
                             mover(BP.PORT_C, -75, BP.PORT_B, 100)
                             sleep(0.3)
-                    elif (red2 > 8000) and (red2 < 11000):
-                        if (red1 > 8000) and (red1 < 11000):
+                    elif 8000 < red2 < 11000:
+                        if 8000 < red1 < 11000:
                             mover(BP.PORT_C, -100, BP.PORT_B, 100)
                             sleep(0.5)
                         else:
